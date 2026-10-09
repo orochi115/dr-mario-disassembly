@@ -37,13 +37,16 @@ currentP_isSlow:
 ;;
 ;; slowDrop_check
 ;;
-;; Slow speed, down button: returns A != 0 (Z clear) when the pill must go down one row.
-;; Only down on the d-pad counts, like the original fast drop. A new press moves at once,
-;; holding moves every CFG_DROP_FRAMES frames.
+;; Slow speed: returns A != 0 (Z clear) when the pill must go down one row.
+;; Down: a new press moves at once, holding moves every CFG_DROP_FRAMES frames.
+;; Up: fast drop, every 2 frames like the original down button.
+;; Only one direction on the d-pad counts, like the original fast drop.
 ;;
 slowDrop_check:
         lda currentP_btnsHeld
         and #btns_dpad
+        cmp #btn_up
+        beq @fastDrop
         cmp #btn_down
         bne @noDrop
         lda currentP_btnsPressed
@@ -57,6 +60,10 @@ slowDrop_check:
         rts                         ;A != 0
     @noDrop:
         lda #$00
+        rts
+    @fastDrop:
+        lda frameCounter
+        and #fast_drop_speed        ;Odd frames, as in fallingPill_checkYMove
         rts
 
 

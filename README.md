@@ -9,7 +9,7 @@ Also, thanks to all contributors of the Dr.Mario articles at Data Crystal (https
 
 ## Mod: Chinese text and slow speed (branch `cn`)
 
-- **Slow speed** (缓动, `OFF` in English): a fourth speed, left of LOW and the default at power-on. The capsule never falls by itself. Pressing down moves it one row; holding down moves it one row every `CFG_DROP_FRAMES` frames (0.5 s by default). Score, cutscenes and the level 20 ending count it as LOW. The demo still plays at MED.
+- **Slow speed** (缓动, `OFF` in English): a fourth speed, left of LOW and the default at power-on. The capsule never falls by itself. Pressing down moves it one row; holding down moves it one row every `CFG_DROP_FRAMES` frames (0.5 s by default). Holding up drops it fast, like down at the other speeds. Score, cutscenes and the level 20 ending count it as LOW. The demo still plays at MED.
 - **Chinese text** (`-l zh`): every screen except the Dr. MARIO logo and the Nintendo line, in the 12 px [Fusion Pixel](https://github.com/TakWolf/fusion-pixel-font) font (SIL OFL 1.1, see `fonts/OFL.txt`). The text and its positions are in `text/zh_strings.txt`. `tools/build_text.py` draws it on the original screens and writes `build/chr_zh.bin` (64K CHR: banks 8/9 hold the 2-player level) and `build/text_zh.asm`.
 
 Building needs asm6f (`make -C ../asm6f`) and Python 3:
