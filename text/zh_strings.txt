@@ -1,0 +1,106 @@
+# Dr. Mario Chinese text, read by tools/build_text.py (see its header for the syntax).
+#
+#   ERASE  SCREEN COL ROW W H TILE   nametable cells -> TILE
+#   FILL   SCREEN X Y W H COLOR      pixels -> colour (X/Y like COL/ROW)
+#   TEXT   SCREEN ID COL ROW TEXT    text drawn on the screen's nametable
+#   DYN    SCREEN ID COL ROW TEXT    text the code draws (emitted as tile rows)
+#
+# COL/ROW: top-left of the first 16x16 character cell, in tiles, "+n"/"-n" adds
+# pixels. The 11x11 ink of a character sits 2 px right and 3 px down in its cell.
+
+## Title screen (banks 3/4): the menu, the logo and the Nintendo line stay
+ERASE TITLE 10 21 13 1 FF
+ERASE TITLE 10 23 13 1 FF
+TEXT  TITLE MENU_1P 10 20  单人游戏
+TEXT  TITLE MENU_2P 10 22  双人游戏
+
+## Options screen (bank 5)
+# Title: the first character is drawn by the code (single / two players)
+ERASE OPTIONS 10 5 13 1 FF
+DYN   OPTIONS OPT_1P 12 4  单
+DYN   OPTIONS OPT_2P 12 4  双
+TEXT  OPTIONS OPT_TITLE 14 4  人游戏
+# Section labels inside their 1-row boxes (11 px inside)
+ERASE OPTIONS 6 8 11 1 FF
+TEXT  OPTIONS OPT_LEVEL 7+4 7+3  病毒等级
+ERASE OPTIONS 6 15 5 1 FF
+TEXT  OPTIONS OPT_SPEED 6+5 14+3  速度
+ERASE OPTIONS 6 21 10 1 FF
+TEXT  OPTIONS OPT_MUSIC 9 20+3  音乐
+# Speed values between the two players' cursors (cursor x = centre - 12, the
+# cursors move 2-3 px away from the text: speedCursor_YPos)
+ERASE OPTIONS 11 18 13 1 FF
+TEXT  OPTIONS OPT_SLOW 11 17+3  缓动
+TEXT  OPTIONS OPT_LOW  16 17+3  低
+TEXT  OPTIONS OPT_MED  19 17+3  中
+TEXT  OPTIONS OPT_HI   22 17+3  高
+# Music types, centred in the sprite boxes (large at x 56 and 112, small at 167)
+ERASE OPTIONS 8 24 17 1 FF
+TEXT  OPTIONS OPT_FEVER 8+4 23+4  狂热
+TEXT  OPTIONS OPT_CHILL 15+4 23+4  轻松
+TEXT  OPTIONS OPT_OFF  21+3 23+4  关闭
+
+## 1-player level (banks 0/1). Ink is colour 0 on the paper ($FE).
+ERASE LEVEL1P 2 7 3 1 FE
+TEXT  LEVEL1P HUD_TOP 2 6  最高分
+ERASE LEVEL1P 2 10 5 1 FE
+TEXT  LEVEL1P HUD_SCORE 2 9  得分
+ERASE LEVEL1P 23 18 5 1 FE
+TEXT  LEVEL1P HUD_LEVEL 23 17  等级
+ERASE LEVEL1P 23 21 5 1 FE
+TEXT  LEVEL1P HUD_SPEED 23 20  速度
+ERASE LEVEL1P 23 24 5 1 FE
+TEXT  LEVEL1P HUD_VIRUS 23 24  病毒
+# Speed value under the label, right-aligned: low, med, hi, slow.
+# The virus count moves down to row 26 (virusLeft_VRAMaddr).
+DYN   LEVEL1P SPD1P_0 27 22  低
+DYN   LEVEL1P SPD1P_1 27 22  中
+DYN   LEVEL1P SPD1P_2 27 22  高
+DYN   LEVEL1P SPD1P_3 27 22  缓
+# Text boxes over the field (box columns 1-6 are inside)
+DYN   LEVEL1P BOX_1P_stageClear_1 2 3  过关
+DYN   LEVEL1P BOX_1P_stageClear_2 1 6  下一关
+DYN   LEVEL1P BOX_1P_gameOver_1 2 1  游戏
+DYN   LEVEL1P BOX_1P_gameOver_2 2 3  结束
+
+## 2-player level (banks 8/9 = copies of 0/1)
+# LEVEL under the clip; the level numbers are sprites at y 44-51
+ERASE LEVEL2P 13 4 6 1 FE
+TEXT  LEVEL2P HUD2_LEVEL 14 3+5  等级
+# VIRUS: the white label grows to 2 rows
+FILL  LEVEL2P 13 20 3 8 3
+FILL  LEVEL2P 13+3 20 43 8 1
+FILL  LEVEL2P 18+6 20 2 8 0
+ERASE LEVEL2P 14 21 4 1 FE
+FILL  LEVEL2P 13+3 21 43 8 1
+TEXT  LEVEL2P HUD2_VIRUS 14 19+7  病毒
+# Speed values beside the level numbers: low, med, hi, slow
+DYN   LEVEL2P SPD2P_P1_0 11+6 6+1  低
+DYN   LEVEL2P SPD2P_P1_1 11+6 6+1  中
+DYN   LEVEL2P SPD2P_P1_2 11+6 6+1  高
+DYN   LEVEL2P SPD2P_P1_3 11+6 6+1  缓
+DYN   LEVEL2P SPD2P_P2_0 18+3 6+1  低
+DYN   LEVEL2P SPD2P_P2_1 18+3 6+1  中
+DYN   LEVEL2P SPD2P_P2_2 18+3 6+1  高
+DYN   LEVEL2P SPD2P_P2_3 18+3 6+1  缓
+DYN   LEVEL2P BOX_2P_stageClear_1 2 3  过关
+DYN   LEVEL2P BOX_2P_stageClear_2 1 6  下一关
+DYN   LEVEL2P BOX_2P_gameOver_1 2 1  游戏
+DYN   LEVEL2P BOX_2P_gameOver_2 2 3  结束
+DYN   LEVEL2P BOX_2P_draw_1 2 1+4  平局
+
+## Cutscene (bank 6), typed one character at a time. Must stay in $2100-$21FF.
+DYN   CUTSCENE CUT_1 12 8  恭喜你！
+DYN   CUTSCENE CUT_2 8 11  病毒等级
+DYN   CUTSCENE CUT_LV 20 11  @LV
+DYN   CUTSCENE CUT_3 8 13  速度
+DYN   CUTSCENE CUT_SP 18 13  @SP
+# Speed values (4 columns): low, med, hi, slow
+DYN   CUTSCENE CUTSPD_0 18 13  低速
+DYN   CUTSCENE CUTSPD_1 18 13  中速
+DYN   CUTSCENE CUTSPD_2 18 13  高速
+DYN   CUTSCENE CUTSPD_3 18 13  缓动
+
+## Sprites (bank 2), positions relative to the original sprite
+DYN   SPRITES SPR_PAUSE 0+3 0-3  暂停
+DYN   SPRITES SPR_START 0+3 0-3  开始

@@ -515,6 +515,13 @@ smallVirusLvlAnim:
         ;lsr A                              ;lsr A times 3 to get to either 0 or 1 for the bank switching                    
         ;lsr A                    
         ;lsr A                    
+    if LANG_ZH
+        ldx nbPlayers                       ;2 players: banks 8/9 (Chinese text of the 2-player level)
+        cpx #$02
+        bne +
+        ora #CHR_levelTiles_2P_frame0
+    +
+    endif
         jsr changeCHRBank1       
         rts                      
 

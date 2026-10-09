@@ -2037,7 +2037,16 @@ emptyLowerFieldOnLose_2P:
 renderGameOver:          
         lda #$00                 
         sta currentP_fieldPointer
+    if LANG_ZH
+        ldx #$00
+        lda nbPlayers
+        cmp #$02
+        bne +
+        ldx #ZH_BOX_gameOver_2P
+    +
+    else
         ldx #$00                 
+    endif
         ldy #txtBox_gameOver_fieldPos                 
     @renderGameOver_loop:    
         lda txtBox_gameOver,X    
@@ -2498,8 +2507,12 @@ toDemo_orOptions:
         ;sta PPUADDR              
         ;lda #$AA                 
         ;sta PPUADDR              
+    if LANG_ZH
+        jsr zh_drawOptPlayers       ;Single / two players character
+    else
         lda nbPlayers            
         sta PPUDATA                 ;Write "1" or "2" in options title for nb of players        
+    endif
     if !optimize
         lda nbPlayers               ;No need to LDA the same variable twice since STA does not affect flags
     endif            

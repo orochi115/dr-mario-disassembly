@@ -11,6 +11,9 @@
 ;;  If nb of tiles is set to $40, it copies the following tile 64 times over 2 rows
 ;;  Not sure what the behavior is if we set it to $80
 ;;    
+if LANG_ZH
+    include build/text_zh.asm      ;Generated nametables and Chinese text data
+else
 bkgTitle:
 .db $20,$00                         ;PPUADDR (high, then low byte)
 .db $20                             ;Nb of tiles (below)
@@ -531,6 +534,7 @@ bkgLevel_2P:
 .db $00,$0A,$0A,$00,$00,$0A,$0A,$00
 .db $00,$00,$00,$00,$00,$00,$00,$00
 .db $FF
+endif
 bkgCutscene_andEnding:
 .db $20,$00,$20,$FC,$FC,$FC,$FC,$FC
 .db $FC,$FC,$FC,$FC,$FC,$FC,$FC,$FC

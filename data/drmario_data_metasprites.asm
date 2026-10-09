@@ -28,10 +28,14 @@ endif
 .word marioTitle, marioTitle_rightFoot_frame0, marioTitle_rightFoot_frame1
  
 spriteData:
+if LANG_ZH
+    txtPause = zh_txtPause
+else
     txtPause:
     .db $00,$0A,$00,$00,$00,$0B,$00,$08     ;In groups of 4 bytes: relative y-coordinate, tile index, attributes, relative x-coordinate
     .db $00,$0C,$00,$10,$00,$0D,$00,$18
     .db $00,$0E,$00,$20,$80                 ;$80 marks the end of the data
+endif
     bigCursor_top:
     .db $00,$F0,$03,$00,$00,$F1,$03,$08
     .db $00,$F2,$03,$10,$80
@@ -128,10 +132,14 @@ spriteData:
     txtHi:
     .db $00,$11,$00,$00,$00,$12,$00,$08
     .db $80
+if LANG_ZH
+    txtStart = zh_txtStart
+else
     txtStart:
     .db $00,$0D,$00,$00,$00,$0F,$00,$08
     .db $00,$0B,$00,$10,$00,$14,$00,$18
     .db $00,$0F,$00,$20,$80
+endif
     redVirus_holdSign_frame1:
     .db $00,$20,$01,$00,$00,$2B,$01,$08
     .db $00,$39,$01,$10,$00,$38,$41,$18

@@ -513,6 +513,9 @@ renderLevelNb_2digits:
 ;; These bundled routines add or remove text during the cutscenes
 ;;
 render_cutscene_txt:     
+    if LANG_ZH
+        jmp zh_render_cutscene_txt
+    endif
         lda cutsceneFrame               ;Check cutscene frame, if 0, nothing to render
         beq @exit_render_cutscene_txt   
         cmp #$80                        ;If frame is $80 or more, this means text has to be removed

@@ -179,3 +179,6 @@ PPUSCROLL_y                     =   $FC
 PPUSCROLL_x                     =   $FD
 PPUMASK_RAM                     =   $FE
 PPUCTRL_RAM                     =   $FF
+
+;Mod (Chinese) zero-page RAM
+zh_tmp                          =   $B0     ;Used by the cutscene text in NMI

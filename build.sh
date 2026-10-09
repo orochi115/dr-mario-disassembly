@@ -16,6 +16,7 @@ done
 case $LANG_ in zh) ZH=1 ;; en) ZH=0 ;; *) echo "unknown language $LANG_" >&2; exit 1 ;; esac
 [ -x "$ASM6F" ] || make -C ../asm6f >/dev/null
 mkdir -p build
+[ $ZH = 1 ] && python3 tools/build_text.py
 tools/gen_config.sh $REGION 1 $ZH $CFG > build/gen_config.asm
 OUT=build/drmario_cn_${REGION}_${LANG_}.nes
 $ASM6F -q -dGEN drmario.asm $OUT

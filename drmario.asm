@@ -99,4 +99,8 @@ org $FFFA                                       ;Must be at this specific addres
 word nmi, reset, irq              
 
 ;CHR
-incbin bin/drmario_chr.bin
+if LANG_ZH
+    incbin build/chr_zh.bin         ;Written by tools/build_text.py
+else
+    incbin bin/drmario_chr.bin
+endif

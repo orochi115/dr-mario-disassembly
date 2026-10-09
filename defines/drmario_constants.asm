@@ -278,6 +278,7 @@ CHR_optionsTiles        =   $05
 CHR_optionsSprites      =   $05     ;Shared
 CHR_cutsceneTiles       =   $06
 CHR_cutsceneSprites     =   $07
+CHR_levelTiles_2P_frame0 =  $08     ;Mod (Chinese): 2-player level, frame 1 is $09
 
 
 ;2 player level vram
@@ -289,7 +290,11 @@ highScore_VRAMaddr      = $2102
 score_VRAMaddr          = $2162
 levelNb_VRAMaddr        = $227B    
 speedText_1P_VRAMaddr   = $22DA
+if LANG_ZH
+virusLeft_VRAMaddr      = $235B     ;One row lower, under the 2-row label
+else
 virusLeft_VRAMaddr      = $233B
+endif
 
 ;options vram
 lvlNbP1_VRAMaddr        = $2157

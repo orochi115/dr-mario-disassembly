@@ -153,12 +153,27 @@ displayStageClear:
         lda #$00                 
         sta currentP_fieldPointer
         ldy #$00                 
+    if LANG_ZH
+        ldx #$00                                ;The 2P table follows the 1P one
+        lda nbPlayers
+        cmp #$02
+        bne @displayStageClear_loop
+        ldx #ZH_BOX_stageClear_2P
+    @displayStageClear_loop: 
+        lda txtBox_stageClear,X
+        beq @exit_displayStageClear
+        sta (currentP_fieldPointer),Y
+        inx
+        iny                      
+        jmp @displayStageClear_loop
+    else
     @displayStageClear_loop: 
         lda txtBox_stageClear,Y  
         beq @exit_displayStageClear             ;When data is zero, this means we are finished
         sta (currentP_fieldPointer),Y
         iny                      
         jmp @displayStageClear_loop
+    endif
     @exit_displayStageClear: 
         rts                      
 

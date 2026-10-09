@@ -351,7 +351,11 @@ selectableMusicIndex:
 ;; The title's cursor position when on 1 or 2 players
 ;; 
 titleCursorYPos:
+if LANG_ZH
+.db $00,$A4,$B4                         ;Centred on the 2-row text
+else
 .db $00,$A7,$B7
+endif
 
 ;;
 ;; bkgOptions_eraseP2 & others [$A284]
@@ -374,13 +378,20 @@ lvlCursor_XPos:
 lvlCursor_YPos:
 .db $00,$00,$00,$00,$53,$62             ;Uses p1=4 and p2=5 values which explains why we have four zeroes before having actual values
 speedCursor_XPos:
-if MOD
+if LANG_ZH
+.db ZH_OPT_SLOW_X+ZH_OPT_SLOW_W/2-12,ZH_OPT_LOW_X+ZH_OPT_LOW_W/2-12
+.db ZH_OPT_MED_X+ZH_OPT_MED_W/2-12,ZH_OPT_HI_X+ZH_OPT_HI_W/2-12
+elseif MOD
 .db $58,$78,$98,$B4                     ;Cursor positions: slow, low, med, hi
 else
 .db $58,$80,$A4                         ;x-coordinates for the 3 selectable speed settings
 endif
 speedCursor_YPos:
+if LANG_ZH
+.db $00,$00,$00,$00,$85,$98             ;Clear of the 11 px characters
+else
 .db $00,$00,$00,$00,$87,$96             ;Same as for level cursor
+endif
 bkgOptions_cursorOnLvl:
 _dw $23C0                               ;Changes attributes for top half of screen for cursor on level
 .db $20                         
@@ -843,6 +854,7 @@ colorCombination_right:
 ;;
 ;; Visual data for text box displayed over level when the level ends (for several reasons). $00 ends the data
 ;; 
+if !LANG_ZH
 txtBox_draw:
 .db $8B,$8C,$8C,$8C,$8C,$8C,$8C,$8D
 .db $8E,$FE,$FE,$FE,$FE,$FE,$FE,$8F
@@ -871,3 +883,8 @@ txtBox_stageClear:
 .db $8E,$FE,$FE,$FE,$FE,$FE,$FE,$8F
 .db $ED,$EE,$EE,$EE,$EE,$EE,$EE,$EF
 .db $00
+else
+    txtBox_draw = zh_txtBox_draw_2P
+    txtBox_gameOver = zh_txtBox_gameOver_1P     ;2P at +ZH_BOX_gameOver_2P
+    txtBox_stageClear = zh_txtBox_stageClear_1P ;2P at +ZH_BOX_stageClear_2P
+endif

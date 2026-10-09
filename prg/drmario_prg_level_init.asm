@@ -22,6 +22,18 @@ toLevel:
     @bkgLevel_2P_ptr:        
         .word bkgLevel_2P             
     @displaySpeedText_2P:     
+    if LANG_ZH
+        lda p1_speedSetting         ;Chinese: one 2x2 character per player
+        ldx #$00
+        jsr speedTextOffset
+        ldy #$01
+        jsr zh_drawSpeed
+        lda p2_speedSetting
+        ldx #$01
+        jsr speedTextOffset
+        ldy #$02
+        jsr zh_drawSpeed
+    else
         setPPUADDR_absolute speedText_P1_VRAMaddr   ;Display speed text for player 1 (as bkg, not sprite)
         ;lda #>speedText_P1_VRAMaddr                 
         ;sta PPUADDR              
@@ -62,6 +74,7 @@ toLevel:
         sta PPUDATA              
         lda textLevelSpeed+2,X   
         sta PPUDATA              
+    endif
         lda #palNb_level_2p                  ;Indicate that we have changed screen              
         sta palToChangeTo        
     @initLevelRAM:            
@@ -222,6 +235,13 @@ prepLevelVisual_1P:
     @displaySpeed_1P:         
         lda #palNb_level_1P  ;Indicate that we have changed screen                 
         sta palToChangeTo        
+    if LANG_ZH
+        lda p1_speedSetting
+        ldx #$00
+        jsr speedTextOffset
+        ldy #$00
+        jsr zh_drawSpeed
+    else
         lda p1_speedSetting     ;Display speed text for player 1 (as bkg, not sprite)  
     if MOD
         ldx #$00
@@ -243,4 +263,5 @@ prepLevelVisual_1P:
         inx                      
         dey                      
         bne @displaySpeed_1P_loop
+    endif
         rts                   
