@@ -241,7 +241,12 @@ bkgOptions:
 .db $FC,$FD,$FC,$FD,$FC,$FD,$FC,$FD
 .db $FC,$FD,$FC,$FD,$FC,$FD,$FC,$FD
 .db $FC,$FD,$FC,$FD,$FC,$FD,$FC,$FD
-.db $FC,$FD,$FF
+.db $FC,$FD
+if MOD
+.db $22,$4B,$0E                         ;Speed row: OFF LOW MED HI
+.db _O_,_F_,_F_,$FF,_L_,_O_,_W_,$FF,_M_,_E_,_D_,$FF,_H_,_I_
+endif
+.db $FF
 bkgLevel_1P:
 .db $20,$00,$20,$FC,$FF,$FC,$FF,$FC
 .db $FF,$FC,$FF,$FC,$FF,$FC,$FF,$FC

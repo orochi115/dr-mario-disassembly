@@ -28,9 +28,14 @@ toLevel:
         ;lda #<speedText_P1_VRAMaddr                  
         ;sta PPUADDR              
         lda p1_speedSetting      
+    if MOD
+        ldx #$00
+        jsr speedTextOffset
+    else
         asl A                    
         asl A                    
         tax                      
+    endif
         lda textLevelSpeed+0,X   
         sta PPUDATA              
         lda textLevelSpeed+1,X   
@@ -43,9 +48,14 @@ toLevel:
         ;lda #<speedText_P2_VRAMaddr                  
         ;sta PPUADDR              
         lda p2_speedSetting      
+    if MOD
+        ldx #$01
+        jsr speedTextOffset
+    else
         asl A                    
         asl A                    
         tax                      
+    endif
         lda textLevelSpeed+0,X   
         sta PPUDATA              
         lda textLevelSpeed+1,X   
@@ -213,9 +223,14 @@ prepLevelVisual_1P:
         lda #palNb_level_1P  ;Indicate that we have changed screen                 
         sta palToChangeTo        
         lda p1_speedSetting     ;Display speed text for player 1 (as bkg, not sprite)  
+    if MOD
+        ldx #$00
+        jsr speedTextOffset
+    else
         asl A                    
         asl A                    
         tax                      
+    endif
         ldy #textLevelSpeedSize           
         setPPUADDR_absolute speedText_1P_VRAMaddr
         ;lda #>speedText_1P_VRAMaddr                 

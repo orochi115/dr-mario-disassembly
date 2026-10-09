@@ -1,5 +1,18 @@
 ;Build config
-include build_config.asm
+ifdef GEN
+    include build/gen_config.asm    ;Written by build.sh / make.sh
+else
+    include build_config.asm
+endif
+ifndef MOD
+MOD                 = 0             ;Set to 1 for the mod (slow speed, Chinese text)
+endif
+ifndef LANG_ZH
+LANG_ZH             = 0
+endif
+ifndef CFG_SLOW
+CFG_SLOW            = 0             ;Set by config/*.asm in MOD builds
+endif
 
 ;Defines and macros
 include defines/drmario_ram_zp.asm
@@ -68,6 +81,14 @@ endif
 include unused/drmario_unused_data_ff32.asm
 include prg/drmario_prg_audio_linker.asm
 include unused/drmario_unused_data_ffd9.asm
+
+;Mod code (slow speed, Chinese text), in the space freed by removeUnused
+if MOD
+    include prg/drmario_prg_mod.asm
+endif
+if $ > $FFE0
+    error "PRG overflow before the Nintendo header"
+endif
 
 ;Nintendo header
 org $FFE0                                       ;Is on a specific address (doesn't impact the game though)

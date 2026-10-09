@@ -541,10 +541,18 @@ render_cutscene_txt:
 _cutsceneText_interpreter:
         bne @cutscene_lvlNb_check       ;Current cutsceneText data is in A. If $00, we add the level speed text, otherwise, check if we add lvl
     @cutscene_speedTxt:      
+    if MOD
+        lda currentP
+        and #$01
+        tax
+        lda currentP_speedSetting
+        jsr speedTextOffset
+    else
         lda currentP_speedSetting       ;Multiply current speed setting by four to get an index for the 3-letter speed text
         asl A                    
         asl A                    
         tax                      
+    endif
         lda cutsceneText_speed+0,X
         sta PPUDATA             
         lda cutsceneText_speed+1,X      

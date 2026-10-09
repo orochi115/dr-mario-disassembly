@@ -269,6 +269,10 @@ musicType_cache                 = $073F     ;Stored here when attract mode start
 flag_antiPiracy                 = $0740
 flag_demo                       = $0741     ;0 = not in attract mode, FE = in attract mode, FF = attract record mode
 
+;Mod RAM (persistent, so a reset keeps the choice)
+p1_slow                         = $0742     ;Non-zero = slow speed (no gravity), speedSetting is then speed_low
+p2_slow                         = $0743     ;Must follow p1_slow (indexed by player 0/1)
+
 ;Cloud sprites RAM
 cutscene_cloudSpritesData_RAM   = $0760     ;3 x 3 bytes:   Index, x, y    +1 byte for the last 0
 

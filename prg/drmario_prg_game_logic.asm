@@ -239,6 +239,10 @@ fallingPill_checkYMove:
         cmp #btn_down               ;This implies that ONLY down must be pressed on the d-pad for the fast drop to occur
         beq @lowerPillY          
     @checkGravity:           
+    if MOD
+        jsr currentP_isSlow         ;Slow speed: no gravity, the pill only goes down with the down button
+        bne @exit_fallingPill_checkYMove
+    endif
         inc currentP_speedCounter   ;Down not pressed, get amount of frames (speed counter) spent at this vertical position so far
         lda currentP_speedUps       ;Then get the amount of frames which we must reach before dropping at the current level and speed
         sta currentP_speedIndex  
@@ -538,6 +542,10 @@ generateNextPill:
         cmp #$00                 
         bne @resetComboCounter_thenRTS
     @checkSpeedUp_max:       
+    if MOD
+        jsr currentP_isSlow         ;No speed up (and no speed up sfx) at slow speed
+        bne @resetComboCounter_thenRTS
+    endif
         lda currentP_speedUps    
         cmp #speedUps_max                   ;Prevents speed increase after 49 increases
         beq @resetComboCounter_thenRTS
@@ -2704,6 +2712,9 @@ updateLvlCursor:
 ;; Updates a single speed cursor during a single frame
 ;;
 updateSpeedCursor:       
+    if MOD
+        jmp updateSpeedCursor_mod   ;4 positions: slow, low, med, hi
+    endif
         lda currentP_btnsPressed            ;Roughly same principle as for lvl cursor update
         cmp #btn_right                 
         bne @check_leftPressed   
@@ -2748,7 +2759,12 @@ updateOptions_cursors:
         sta metaspriteIndex          
         jsr metaspriteUpdate         
     @updateOptions_cursor_speed:
+    if MOD
+        jsr speedCursorPos
+        tax
+    else
         ldx currentP_speedSetting
+    endif
         lda speedCursor_XPos,X 
         sta spriteXPos           
         ldx currentP             

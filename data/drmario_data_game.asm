@@ -301,10 +301,16 @@ textLevelSpeed:
 .db _L_,_O_,_W_,$00     
 .db _M_,_E_,_D_,$00
 .db $FE,_H_,_I_,$00
+if MOD
+.db _O_,_F_,_F_,$00                     ;Slow (offset textSpeedSlow)
+endif
 cutsceneText_speed:
 .db _L_,_O_,_W_,$00     
 .db _M_,_E_,_D_,$00     
 .db $FF,_H_,_I_,$00
+if MOD
+.db _O_,_F_,_F_,$00
+endif
 
 ;;
 ;; bigVirus_spriteIndex [$A26F]
@@ -368,7 +374,11 @@ lvlCursor_XPos:
 lvlCursor_YPos:
 .db $00,$00,$00,$00,$53,$62             ;Uses p1=4 and p2=5 values which explains why we have four zeroes before having actual values
 speedCursor_XPos:
+if MOD
+.db $58,$78,$98,$B4                     ;Cursor positions: slow, low, med, hi
+else
 .db $58,$80,$A4                         ;x-coordinates for the 3 selectable speed settings
+endif
 speedCursor_YPos:
 .db $00,$00,$00,$00,$87,$96             ;Same as for level cursor
 bkgOptions_cursorOnLvl:

@@ -137,6 +137,16 @@ init:
         sta nbPlayers            
         sta p1_speedSetting      
         sta p2_speedSetting
+    if MOD
+        lda #CFG_SLOW               ;Power-on speed: slow (stored as LOW + slow flag) or the original MED
+        sta p1_slow
+        sta p2_slow
+      if CFG_SLOW
+        lda #speed_low
+        sta p1_speedSetting
+        sta p2_speedSetting
+      endif
+    endif
     if !removeMoreUnused              
         lda #$02                 
         sta config_unknown722

@@ -236,6 +236,7 @@ mask_color              =   $03
 speed_low               =   $00
 speed_med               =   $01
 speed_hi                =   $02
+textSpeedSlow           =   $0C     ;Mod: offset of the slow entry in textLevelSpeed / cutsceneText_speed
 
 ;Options
 options_section_lvl     =   $00

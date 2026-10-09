@@ -5,3 +5,5 @@ _original/
 *.mlb
 compile_debug.bat
 checksum.py
+build/
+__pycache__/
