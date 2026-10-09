@@ -99,6 +99,11 @@ checkVirusLeft:
         lda p1_btns_pressed      
         ora p1_btns_held         
         and #btn_start                 
+    if MOD
+        bne @p1_startPressed
+        lda p1_btns_pressed             ;A works like start, but only a new press (A rotates the pill)
+        and #btn_a
+    endif
         beq @wait_p1Input
     else 
         jsr startBlink_waitForInput

@@ -1005,6 +1005,10 @@ getInputs_checkMode:
         lda p1_btns_pressed         ;If start is pressed, reset demo move pointer and exit 
         cmp #btn_start                 
         beq @resetDemoMovePointer
+    if MOD
+        cmp #btn_a                  ;A works like start
+        beq @resetDemoMovePointer
+    endif
     @startNotPressed:        
         lda counterDemoInstruction  ;A counter is set, and then decreases every frame until clear, then we check the next demo input
         beq @nextDemoInstruction 
@@ -1861,7 +1865,11 @@ playerLoses_endScreen:
     @postSpriteUpdate:       
         jsr visualAudioUpdate_NMI       ;Update visuals and audio, and loop until p1 presses start
         lda p1_btns_pressed      
+    if MOD
+        and #btn_start|btn_a            ;A works like start
+    else
         and #btn_start                 
+    endif
         beq @waitForInput_loop   
     else 
         jsr startBlink_waitForInput
@@ -1910,6 +1918,10 @@ playerLoses_endScreen:
     @victory_notFinal_postSpriteUpdate:
         jsr visualAudioUpdate_NMI
         lda p1_btns_pressed      
+    if MOD
+        cmp #btn_a                      ;A works like start
+        beq @victory_notFinal_startPressed
+    endif
         cmp #btn_start                 
         bne @victory_notFinal_waitForInput_loop
     else 
@@ -2268,6 +2280,10 @@ checkPauseReset:
         rts                             
     @checkStartBtn_demo:     
         lda p1_btns_pressed     ;If in the demo, check if pause is pressed   
+    if MOD
+        cmp #btn_a              ;A works like start
+        beq @startPressed_demo
+    endif
         cmp #btn_start                 
         bne @exit_checkStartBtn_demo
     @startPressed_demo:      
@@ -2420,6 +2436,10 @@ toTitle:
         lda p1_btns_pressed         ;If not, check if p1 pressed start
         cmp #btn_start                 
         beq @incMode                ;If so, increase mode to options menu. If not, loop on the title screen
+    if MOD
+        cmp #btn_a                  ;A works like start
+        beq @incMode
+    endif
         jmp @title_mainLoop      
     @incMode:                
         inc mode                 
@@ -2555,8 +2575,13 @@ toDemo_orOptions:
         sta mode                 
         jmp @exit_toDemo_orOptions
     @checkStartPress:        
+    if MOD
+        cmp #btn_a                  ;A works like start
+        beq @startGame
+    endif
         cmp #btn_start              ;Check if start pressed          
         bne @sectionCheck_lvl    
+    @startGame:
         jmp @toInitGame             ;If so, start game
     @sectionCheck_lvl:       
         lda optionSectionHighlight  ;Otherwise, check which section is highlighted
@@ -3405,6 +3430,10 @@ toNextLevel:
         jsr visualAudioUpdate_NMI
         dec waitFrames           
         lda p1_btns_pressed      
+    if MOD
+        cmp #btn_a                  ;A works like start
+        beq @prepNextLevel
+    endif
         cmp #btn_start                 
         bne @cutscene_mainLoop   
     @prepNextLevel:          
