@@ -230,6 +230,14 @@ action_pillFalling:
 ;; This handles the falling pill's y position changes (either through gravity or through player input), also includes anti-piracy
 ;;
 fallingPill_checkYMove:  
+    if MOD
+        jsr currentP_isSlow         ;Slow speed: no gravity, down moves one row every CFG_DROP_FRAMES
+        beq @originalSpeed
+        jsr slowDrop_check
+        bne @lowerPillY
+        rts
+    @originalSpeed:
+    endif
         lda frameCounter         
         and #fast_drop_speed                 
         beq @checkGravity           ;Down button is only checked every 2 frames, change to bne if btn_down_drop_speed = $00

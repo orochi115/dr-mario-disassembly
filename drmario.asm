@@ -13,6 +13,9 @@ endif
 ifndef CFG_SLOW
 CFG_SLOW            = 0             ;Set by config/*.asm in MOD builds
 endif
+ifndef CFG_DROP_FRAMES
+CFG_DROP_FRAMES     = 30
+endif
 
 ;Defines and macros
 include defines/drmario_ram_zp.asm

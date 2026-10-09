@@ -35,6 +35,32 @@ currentP_isSlow:
 
 
 ;;
+;; slowDrop_check
+;;
+;; Slow speed, down button: returns A != 0 (Z clear) when the pill must go down one row.
+;; Only down on the d-pad counts, like the original fast drop. A new press moves at once,
+;; holding moves every CFG_DROP_FRAMES frames.
+;;
+slowDrop_check:
+        lda currentP_btnsHeld
+        and #btns_dpad
+        cmp #btn_down
+        bne @noDrop
+        lda currentP_btnsPressed
+        and #btn_down
+        bne @drop                   ;Just pressed
+        dec currentP_slowDropTimer
+        bne @noDrop
+    @drop:
+        lda #CFG_DROP_FRAMES
+        sta currentP_slowDropTimer
+        rts                         ;A != 0
+    @noDrop:
+        lda #$00
+        rts
+
+
+;;
 ;; speedTextOffset
 ;;
 ;; A = speed setting, X = player (0/1). Returns X = offset in textLevelSpeed / cutsceneText_speed

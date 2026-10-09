@@ -108,6 +108,7 @@ currentP_speedUps               =   $8A
 currentP_speedSetting           =   $8B
 currentP_UNUSED_8C              =   $8C
 currentP_UNUSED_8D              =   $8D
+currentP_slowDropTimer          =   $8D     ;Mod: frames until the next row while down is held (slow speed)
 currentP_chainLength_0based     =   $8E
 currentP_comboCounter           =   $8F
 currentP_pillsCounter_decimal   =   $90
