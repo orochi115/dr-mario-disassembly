@@ -1005,10 +1005,6 @@ getInputs_checkMode:
         lda p1_btns_pressed         ;If start is pressed, reset demo move pointer and exit 
         cmp #btn_start                 
         beq @resetDemoMovePointer
-    if MOD
-        cmp #btn_a                  ;A works like start
-        beq @resetDemoMovePointer
-    endif
     @startNotPressed:        
         lda counterDemoInstruction  ;A counter is set, and then decreases every frame until clear, then we check the next demo input
         beq @nextDemoInstruction 
@@ -2280,10 +2276,6 @@ checkPauseReset:
         rts                             
     @checkStartBtn_demo:     
         lda p1_btns_pressed     ;If in the demo, check if pause is pressed   
-    if MOD
-        cmp #btn_a              ;A works like start
-        beq @startPressed_demo
-    endif
         cmp #btn_start                 
         bne @exit_checkStartBtn_demo
     @startPressed_demo:      
