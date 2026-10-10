@@ -1002,10 +1002,18 @@ getInputs_checkMode:
     endif 
     @inDemo:                 
         jsr getInputs               ;Otherwise, we are in demo mode. Get inputs.
-        lda p1_btns_pressed         ;If start is pressed, reset demo move pointer and exit 
-        cmp #btn_start                 
+        lda p1_btns_pressed         ;If start is pressed, reset demo move pointer and exit
+    if MOD
+        and #btn_start|btn_a|btn_b  ;A and B work like start (checked here on the pad, before the demo's own inputs replace it)
+        beq @startNotPressed
+        lda #btn_start              ;checkPauseReset then sees start and leaves the demo
+        sta p1_btns_pressed
+        bne @resetDemoMovePointer
+    else
+        cmp #btn_start
         beq @resetDemoMovePointer
-    @startNotPressed:        
+    endif
+    @startNotPressed:      
         lda counterDemoInstruction  ;A counter is set, and then decreases every frame until clear, then we check the next demo input
         beq @nextDemoInstruction 
     @decreaseCounterDemoInstruction:
